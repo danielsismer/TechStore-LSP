@@ -1,15 +1,20 @@
 package service;
 
 import domain.model.Pedido;
+import service.implement.FreteGratis;
+import service.implement.FretePadrao;
 
 public class ProcessadorDePagamento {
 
-    public void processar(PedidoService pedido, double freteBase) {
+    public void processar(Pedido pedido, double valorFreteBase, PedidoService estrategia) {
 
-        pedido.aplicarFrete(freteBase);
+        double valorFinal = estrategia.aplicarFrete(pedido, valorFreteBase);
 
-        if (pedido.getValorFinal() < pedido.valorBruto) {
-            throw new IllegalStateException("Erro de contrato: O valor final não pode ser menor que o valor bruto após a aplicação do frete.");
+        System.out.println("Valor Bruto: R$ " + pedido.getValorBruto());
+        System.out.println("Valor Final Processado: R$ " + valorFinal);
+
+        if (valorFinal < pedido.getValorBruto()) {
+            throw new IllegalStateException("Erro crítico: Valor final menor que o bruto.");
         }
     }
 }

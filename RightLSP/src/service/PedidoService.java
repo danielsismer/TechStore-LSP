@@ -4,6 +4,6 @@ import domain.model.Pedido;
 
 public interface PedidoService {
 
-    public void aplicarFrete(double valorFrete);
+    public double aplicarFrete(Pedido pedido, double valorFrete);
 
 }
